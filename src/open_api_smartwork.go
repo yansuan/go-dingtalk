@@ -52,24 +52,26 @@ type SmartworkAttendanceListRequest struct {
 
 type SmartworkAttendanceListResponse struct {
 	OpenAPIResponse
-	HasMore      bool                       `json:"hasMore"`
-	RecordResult []SmartworkALRRecordResult `json:"recordresult"`
+	HasMore      bool                  `json:"hasMore"`
+	RecordResult []SmartworkListResult `json:"recordresult"`
 }
 
 type SmartworkListResult struct {
-	BaseCheckTime  int64  `json:"baseCheckTime"`
-	CheckType      string `json:"checkType"`
-	CorpId         string `json:"coreId"`
-	GroupId        string `json:"groupId"`
 	Id             string `json:"id"`
-	LocationResult string `json:"locationResult"`
+	GroupId        string `json:"groupId"`
 	PlanId         string `json:"planId"`
 	RecordId       string `json:"recordId"`
-	TimeRecord     int64  `json:"timeRecord"`
-	UserCheckTime  int64  `json:"userCheckTime"`
-	UserId         string `json:"userId"`
 	WorkDate       int64  `json:"workDate"`
+	UserId         string `json:"userId"`
+	CheckType      string `json:"checkType"`
+	TimeResult     string `json:"timeResult"`
+	LocationResult string `json:"locationResult"`
+	ApproveId      string `json:"approveId`
 	ProcInstId     string `json:"procInstId"`
+	BaseCheckTime  int64  `json:"baseCheckTime"`
+	UserCheckTime  int64  `json:"userCheckTime"`
+	SourceType     string `json:"sourceType`
+	CorpId         string `json:"coreId"`
 }
 
 type SmartworkCheckinRecordRequest struct {
