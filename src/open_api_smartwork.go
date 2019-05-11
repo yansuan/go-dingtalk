@@ -3,6 +3,7 @@ package dingtalk
 import (
 	"fmt"
 	"net/url"
+	"strings"
 )
 
 type SmartworkAttendanceListRecordRequest struct {
@@ -42,6 +43,36 @@ type SmartworkALRRecordResult struct {
 	ProcInstId     string  `json:"procInstId"`
 }
 
+type SmartworkAttendanceListRequest struct {
+	UserIdList   []string `json:"userIdList"`
+	WorkDateFrom string   `json:"workDateFrom"`
+	WorkDateTo   string   `json:"workDateTo"`
+	Offset       int64    `json:"offset"`
+	Limit        int64    `json:"limit"`
+}
+
+type SmartworkAttendanceListResponse struct {
+	OpenAPIResponse
+	HasMore      bool                       `json:"hasMore"`
+	RecordResult []SmartworkALRRecordResult `json:"recordresult"`
+}
+
+type SmartworkListResult struct {
+	BaseCheckTime  int64  `json:"baseCheckTime"`
+	CheckType      string `json:"checkType"`
+	CorpId         string `json:"coreId"`
+	GroupId        string `json:"groupId"`
+	Id             string `json:"id"`
+	LocationResult string `json:"locationResult"`
+	PlanId         string `json:"planId"`
+	RecordId       string `json:"recordId"`
+	TimeRecord     int64  `json:"timeRecord"`
+	UserCheckTime  int64  `json:"userCheckTime"`
+	UserId         string `json:"userId"`
+	WorkDate       int64  `json:"workDate"`
+	ProcInstId     string `json:"procInstId"`
+}
+
 type SmartworkCheckinRecordRequest struct {
 	DepartmentID string
 	StartTime    int64
@@ -73,6 +104,19 @@ type SmartworkCheckinRecordData struct {
 func (dtc *DingTalkClient) SmartworkAttendanceListRecord(info *SmartworkAttendanceListRecordRequest) (SmartworkAttendanceListRecordResponse, error) {
 	var data SmartworkAttendanceListRecordResponse
 	err := dtc.httpRPC("attendance/listRecord", nil, info, &data)
+	return data, err
+}
+
+// 考勤打卡结果开放
+func (dtc *DingTalkClient) SmartworkAttendanceList(info *SmartworkAttendanceListRequest) (SmartworkAttendanceListResponse, error) {
+	var data SmartworkAttendanceListResponse
+	params := url.Values{}
+	params.Add("userIdList", strings.Join(info.UserIdList, ","))
+	params.Add("workDateFrom", info.WorkDateFrom)
+	params.Add("WorkDateTo", info.WorkDateTo)
+	params.Add("offset", fmt.Sprintf("%d", info.Offset))
+	params.Add("limit", fmt.Sprintf("%d", info.Limit))
+	err := dtc.httpRPC("attendance/list", params, nil, &data)
 	return data, err
 }
 
