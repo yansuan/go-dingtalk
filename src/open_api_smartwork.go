@@ -3,7 +3,6 @@ package dingtalk
 import (
 	"fmt"
 	"net/url"
-	"strings"
 )
 
 type SmartworkAttendanceListRecordRequest struct {
@@ -110,13 +109,7 @@ func (dtc *DingTalkClient) SmartworkAttendanceListRecord(info *SmartworkAttendan
 // 考勤打卡结果开放
 func (dtc *DingTalkClient) SmartworkAttendanceList(info *SmartworkAttendanceListRequest) (SmartworkAttendanceListResponse, error) {
 	var data SmartworkAttendanceListResponse
-	params := url.Values{}
-	params.Add("userIdList", strings.Join(info.UserIdList, ","))
-	params.Add("workDateFrom", info.WorkDateFrom)
-	params.Add("WorkDateTo", info.WorkDateTo)
-	params.Add("offset", fmt.Sprintf("%d", info.Offset))
-	params.Add("limit", fmt.Sprintf("%d", info.Limit))
-	err := dtc.httpRPC("attendance/list", params, nil, &data)
+	err := dtc.httpRPC("attendance/list", nil, info, &data)
 	return data, err
 }
 
