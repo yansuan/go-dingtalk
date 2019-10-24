@@ -57,20 +57,20 @@ type SmartworkAttendanceListResponse struct {
 }
 
 type SmartworkListResult struct {
-	Id             string `json:"id"`
-	GroupId        string `json:"groupId"`
-	PlanId         string `json:"planId"`
-	RecordId       string `json:"recordId"`
+	Id             int64  `json:"id"`
+	GroupId        int64  `json:"groupId"`
+	PlanId         int64  `json:"planId"`
+	RecordId       int64  `json:"recordId"`
 	WorkDate       int64  `json:"workDate"`
 	UserId         string `json:"userId"`
 	CheckType      string `json:"checkType"`
 	TimeResult     string `json:"timeResult"`
 	LocationResult string `json:"locationResult"`
-	ApproveId      string `json:"approveId`
+	ApproveId      string `json:"approveId"`
 	ProcInstId     string `json:"procInstId"`
 	BaseCheckTime  int64  `json:"baseCheckTime"`
 	UserCheckTime  int64  `json:"userCheckTime"`
-	SourceType     string `json:"sourceType`
+	SourceType     string `json:"sourceType"`
 	CorpId         string `json:"coreId"`
 }
 
