@@ -13,6 +13,11 @@ type UserIdResponse struct {
 	SysLevel int    `json:"sys_level"`
 }
 
+type UserIdByMobileResponse struct {
+	OpenAPIResponse
+	UserID string `json:"userid"`
+}
+
 type UserIdByUnionIdResponse struct {
 	OpenAPIResponse
 	UserID      string `json:"userid"`
@@ -168,12 +173,21 @@ type UserGetOrgUserCountResponse struct {
 	Count int
 }
 
-// 通过Code换取userid
-func (dtc *DingTalkClient) UserIdByCode(code string) (UserIdResponse, error) {
-	var data UserIdResponse
+//// 通过Code换取userid
+//func (dtc *DingTalkClient) UserIdByCode(code string) (UserIdResponse, error) {
+//	var data UserIdResponse
+//	params := url.Values{}
+//	params.Add("code", code)
+//	err := dtc.httpRPC("user/getuserinfo", params, nil, &data)
+//	return data, err
+//}
+
+// 通过mobile换取userid
+func (dtc *DingTalkClient) UserIdByMobile(mobile string) (UserIdByMobileResponse, error) {
+	var data UserIdByMobileResponse
 	params := url.Values{}
-	params.Add("code", code)
-	err := dtc.httpRPC("user/getuserinfo", params, nil, &data)
+	params.Add("mobile", mobile)
+	err := dtc.httpRPC("user/get_by_mobile", params, nil, &data)
 	return data, err
 }
 
@@ -186,13 +200,25 @@ func (dtc *DingTalkClient) UserIdByUnionId(unionID string) (UserIdByUnionIdRespo
 	return data, err
 }
 
+//// 通过userid 换取 用户详细信息
+//func (dtc *DingTalkClient) UserInfoByUserId(userID string, lang string, isvGetCompanyInfo *DTIsvGetCompanyInfo) (UserInfoResponse, error) {
+//	var data UserInfoResponse
+//	params := url.Values{}
+//	params.Add("lang", lang)
+//	params.Add("userid", userID)
+//	err := dtc.httpRPC("user/get", params, nil, &data, isvGetCompanyInfo)
+//	return data, err
+//}
+
 // 通过userid 换取 用户详细信息
-func (dtc *DingTalkClient) UserInfoByUserId(userID string, lang string, isvGetCompanyInfo *DTIsvGetCompanyInfo) (UserInfoResponse, error) {
+func (dtc *DingTalkClient) UserInfoByUserId(userID string, lang string) (UserInfoResponse, error) {
 	var data UserInfoResponse
 	params := url.Values{}
-	params.Add("lang", lang)
+	if lang != "" {
+		params.Add("lang", lang)
+	}
 	params.Add("userid", userID)
-	err := dtc.httpRPC("user/get", params, nil, &data, isvGetCompanyInfo)
+	err := dtc.httpRPC("user/get", params, nil, &data)
 	return data, err
 }
 
